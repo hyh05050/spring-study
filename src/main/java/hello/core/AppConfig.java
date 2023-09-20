@@ -12,16 +12,16 @@ import hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration //CGLIB를 통해 싱글톤을 유지하는 기능이 적용된다.
 public class AppConfig {
     @Bean
     public MemberService memberService() {
         System.out.println("Call MemberService");
-        return new MemberServiceImpl(getMemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
-    public MemberRepository getMemberRepository() {
+    public MemberRepository memberRepository() {
         System.out.println("Call MemberRepository");
         return new MemoryMemberRepository();
     }
@@ -29,11 +29,11 @@ public class AppConfig {
     @Bean
     public OrderService orderService() {
         System.out.println("Call OrderService");
-        return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
     @Bean
-    public DiscountPolicy getDiscountPolicy() {
+    public DiscountPolicy discountPolicy() {
         return new RateDiscountPolicy();
     }
 
